@@ -19,6 +19,10 @@ const medicineSchema = new mongoose.Schema({
     dosage: String,
     sideEffects: [String],
     purchaseLinks: [String],
+    image: {
+        type: String,
+        default: null
+    },
     createdAt: {
         type: Date,
         default: Date.now

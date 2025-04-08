@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const upload = require('../middleware/upload');
 const { 
   createMedicine, 
   getMedicines, 
@@ -9,7 +10,7 @@ const {
   deleteMedicineByName 
 } = require('../controllers/medicineController');
 
-router.post('/add', auth, (req, res) => {
+router.post('/add', auth, upload.single('image'), (req, res) => {
   createMedicine(req, res);
 });
 router.get('/', getMedicines);

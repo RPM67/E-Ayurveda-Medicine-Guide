@@ -6,15 +6,24 @@ exports.createDisease = async (req, res) => {
     if (!name || !description) {
       return res.status(400).json({ error: 'Name and description are required' });
     }
-    const symptomsArray = symptoms.split(',').map(symptom => symptom.trim());
+    
+    // Trim name and check for existing disease
     name = name.trim();
-    const disease = new Disease({ name, description, symptoms: symptomsArray });
+    const existingDisease = await Disease.findOne({ name });
+    if (existingDisease) {
+      return res.status(400).json({ error: 'Disease already exists' });
+    }
+
+    const symptomsArray = symptoms.split(',').map(symptom => symptom.trim());
+    const disease = new Disease({ 
+      name, 
+      description: description.trim(), 
+      symptoms: symptomsArray 
+    });
+    
     await disease.save();
     res.status(201).json({ message: 'Disease added successfully.' });
   } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).json({ error: 'Disease already exists' });
-    }
     res.status(400).json({ error: error.message });
   }
 };
