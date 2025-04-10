@@ -4,6 +4,25 @@ A comprehensive full-stack web application for managing and discovering Ayurvedi
 
 ---
 
+## 🚀 Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/en/) (Recommended LTS version)
+- [MongoDB](https://www.mongodb.com/try/download/community) (Run it locally)
+- Git
+
+---
+
+## 📥 How to Run This Project (Step-by-step)
+
+### 1. 📦 Clone the Repository
+
+```bash
+git clone https://github.com/<your-username>/E-Ayurveda-Medicine-Guide.git
+cd E-Ayurveda-Medicine-Guide
+```
+
 ## ✨ Features
 
 ### 👥 Public
@@ -48,41 +67,6 @@ A comprehensive full-stack web application for managing and discovering Ayurvedi
 
 ---
 
-## 🚀 Setup Instructions
-
-### 🔧 Backend Setup
-
-```bash
-# Navigate to backend folder
-cd backend
-
-# Install dependencies(run below command in terminal)
-npm install
-
-# Create .env file(run below commands in terminal)
-touch .env
-echo "PORT=5000" >> .env
-echo "MONGO_URI=mongodb://127.0.0.1:27017/eAyurveda" >> .env
-echo "SESSION_SECRET=GROUP_3" >> .env
-echo "UPLOADS_DIR=uploads" >> .env
-
-# Start backend server
-npm start
-```
-
-### 🔧 Frontend Setup
-
-```bash
-# Navigate to frontend folder
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start frontend (React) dev server
-npm run dev
-```
-
 🗂️ Project Structure
 ```bash
 project/
@@ -102,6 +86,70 @@ project/
     ├── middleware/
     ├── uploads/
     └── app.js
+```
+
+## 🚀 Setup Instructions
+
+
+### 🛠️ Prerequisites
+
+- ✅ Make sure **MongoDB is installed and running locally** on port `27017`
+- ✅ Create a database named `eAyurveda`
+  - You can use [MongoDB Compass](https://www.mongodb.com/products/compass) or run:
+    ```bash
+    mongosh
+    use eAyurveda
+    ```
+
+---
+
+### 🔧 Backend Setup
+
+```bash
+# Navigate to backend folder
+cd backend
+
+# Install dependencies(run below command in terminal)
+npm install
+
+# Create .env file(run below commands in terminal)
+touch .env
+echo "PORT=5000" >> .env
+echo "MONGO_URI=mongodb://127.0.0.1:27017/eAyurveda" >> .env
+echo "SESSION_SECRET=GROUP_3" >> .env
+echo "UPLOADS_DIR=uploads" >> .env
+
+# Seed Admins (rahul, kunal, ritam with password 1234)
+node seedAdmin.js
+
+# Start backend server
+npm start
+```
+
+### 🔧 Frontend Setup
+
+- Open a new terminal (keep the backend running in the old current one), then:
+
+```bash
+# Navigate to frontend folder
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start frontend (React) dev server
+npm run dev
+```
+
+### 👥 Admin Login Credentials
+- Use the following pre-seeded accounts (no signup for admins):
+```bash
+Username      Password
+rahul      	1234
+kunal	        1234
+ritam	        1234
+ram	        1234
+lokesh	        1234
 ```
 
 ### 🔐 Authentication Flow
