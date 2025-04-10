@@ -15,7 +15,7 @@ router.post('/add', auth, upload.single('image'), (req, res) => {
 });
 router.get('/', getMedicines);
 router.get('/:name', getMedicineByName); 
-router.put('/:name', auth, updateMedicineByName); 
+router.put('/:name', auth, upload.single('image'), updateMedicineByName);
 router.delete('/:name', auth, deleteMedicineByName);
 
 module.exports = router;

@@ -1,0 +1,160 @@
+.home-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #1a5f7a 0%, #0f3443 100%);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-section h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.disease-select {
+  font-size: 1.1em;
+}
+
+/* Custom styles for react-select */
+.select__control {
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  background-color: white !important;
+}
+
+.select__option {
+  background-color: white !important;
+  color: #2c3e50 !important;
+  cursor: pointer !important;
+}
+
+.select__option--is-focused {
+  background-color: #9fd2f4 !important;
+}
+
+.select__option--is-selected {
+  background-color: #3498db !important;
+  color: white !important;
+}
+
+.select__single-value {
+  color: #2c3e50 !important;
+}
+
+.select__placeholder {
+  color: #95a5a6 !important;
+}
+
+.select__menu {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+.welcome-section {
+  padding: 40px 20px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card h3 {
+  color: #1a5f7a;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+.feature-card p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.results-section {
+  padding: 40px 20px;
+}
+
+.results-section h2 {
+  text-align: center;
+  color: #1a5f7a;
+  margin-bottom: 30px;
+  font-size: 2em;
+}
+
+.medicines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  grid-column: 1 / -1;
+}
+
+.no-results p {
+  color: #64748b;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2em;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .medicines-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,6 +3,12 @@ const Disease = require('../models/disease');
 exports.createDisease = async (req, res) => {
   try {
     var { name, description, symptoms } = req.body;
+    
+    // Check if admin session exists
+    if (!req.session.adminUsername) {
+      return res.status(401).json({ error: 'Admin authentication required' });
+    }
+
     if (!name || !description) {
       return res.status(400).json({ error: 'Name and description are required' });
     }
@@ -18,12 +24,14 @@ exports.createDisease = async (req, res) => {
     const disease = new Disease({ 
       name, 
       description: description.trim(), 
-      symptoms: symptomsArray 
+      symptoms: symptomsArray,
+      listedBy: req.session.adminUsername  // Add admin username from session
     });
     
     await disease.save();
     res.status(201).json({ message: 'Disease added successfully.' });
   } catch (error) {
+    console.log('Error details:', error); // Add this for debugging
     res.status(400).json({ error: error.message });
   }
 };

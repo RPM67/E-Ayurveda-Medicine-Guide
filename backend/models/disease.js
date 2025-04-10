@@ -11,6 +11,10 @@ const diseaseSchema = new mongoose.Schema({
         required: true
     },
     symptoms: [String],
+    listedBy: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

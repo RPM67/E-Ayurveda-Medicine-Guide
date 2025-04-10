@@ -3,6 +3,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const cors = require('cors');
 const fs = require('fs');
 
 const uploadDir = 'uploads/medicines';
@@ -13,6 +14,14 @@ if (!fs.existsSync(uploadDir)){
 dotenv.config();
 
 const app = express();
+
+// Configure CORS before other middleware
+app.use(cors({
+  origin: 'http://localhost:5173', // Vite's default port
+  credentials: true, // Important for cookies/sessions
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
 
 // Connect to MongoDB
 connectDB();

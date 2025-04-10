@@ -10,15 +10,14 @@ exports.createMedicine = async (req, res) => {
     body.purchaseLinks = body.purchaseLinks.split(',').map(link => link.trim());
     body.sideEffects = body.sideEffects.split(',').map(sideEffect => sideEffect.trim());
     body.benefits = body.benefits.split(',').map(benefit => benefit.trim());
+    body.listedBy = req.session.adminUsername; // Add admin username
 
     if (req.file) {
       body.image = `/uploads/medicines/${req.file.filename}`;
     }
 
-    // Check if medicine with trimmed name already exists
     const existingMedicine = await Medicine.findOne({ name: body.name });
     if (existingMedicine) {
-      // Delete uploaded file if medicine already exists
       if (req.file) {
         fs.unlinkSync(req.file.path);
       }
@@ -29,7 +28,6 @@ exports.createMedicine = async (req, res) => {
     await medicine.save();
     res.status(201).json({message: 'Medicine added successfully'});
   } catch (error) {
-    // Delete uploaded file if error occurs
     if (req.file) {
       fs.unlinkSync(req.file.path);
     }
@@ -59,10 +57,51 @@ exports.getMedicineByName = async (req, res) => {
 
 exports.updateMedicineByName = async (req, res) => {
   try {
-    const medicine = await Medicine.findOneAndUpdate({ name: req.params.name.trim() }, req.body, { new: true });
-    if (!medicine) return res.status(404).json({ error: 'Medicine not found' });
-    res.json({message: 'Medicine updated successfully'});
+    const updateData = {
+      name: req.body.name,
+      description: req.body.description,
+      diseaseId: req.body.diseaseId,
+      benefits: req.body.benefits.split(',').map(b => b.trim()),
+      dosage: req.body.dosage,
+      sideEffects: req.body.sideEffects.split(',').map(s => s.trim()),
+      purchaseLinks: req.body.purchaseLinks.split(',').map(l => l.trim())
+    };
+
+    // Handle image update
+    if (req.file) {
+      // Find existing medicine
+      const medicine = await Medicine.findOne({ name: req.params.name });
+      
+      // Delete old image if it exists
+      if (medicine && medicine.image) {
+        const oldImagePath = path.join(__dirname, '..', medicine.image);
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+      
+      // Add new image path
+      updateData.image = `/uploads/medicines/${req.file.filename}`;
+    }
+
+    const updatedMedicine = await Medicine.findOneAndUpdate(
+      { name: req.params.name },
+      updateData,
+      { new: true }
+    ).populate('diseaseId');
+
+    if (!updatedMedicine) {
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
+      return res.status(404).json({ error: 'Medicine not found' });
+    }
+
+    res.json(updatedMedicine);
   } catch (error) {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
     res.status(400).json({ error: error.message });
   }
 };

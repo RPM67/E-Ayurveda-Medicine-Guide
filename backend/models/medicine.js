@@ -23,6 +23,10 @@ const medicineSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    listedBy: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
