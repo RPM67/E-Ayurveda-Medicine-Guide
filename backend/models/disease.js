@@ -11,6 +11,10 @@ const diseaseSchema = new mongoose.Schema({
         required: true
     },
     symptoms: [String],
+    dietaryPlan: {
+        recommended: [String],
+        avoided: [String]
+    },
     listedBy: {
         type: String,
         required: true

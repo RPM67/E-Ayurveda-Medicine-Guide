@@ -114,6 +114,26 @@
     margin-bottom: 20px;
   }
   
+  .reference-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+  
+  .reference-section h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1em;
+  }
+  
+  .reference-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
   @media (max-width: 768px) {
     .medicines-grid {
       grid-template-columns: 1fr;

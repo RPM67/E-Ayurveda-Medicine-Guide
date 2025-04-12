@@ -62,17 +62,18 @@ const ListedMedicines = () => {
   const handleEdit = (medicine) => {
     setEditingMedicine(medicine);
     setFormData({
-      name: medicine.name,
-      description: medicine.description,
-      diseaseId: medicine.diseaseId._id,
-      benefits: medicine.benefits.join(', '),
-      dosage: medicine.dosage,
-      sideEffects: medicine.sideEffects.join(', '),
-      purchaseLinks: medicine.purchaseLinks.join(', '),
-      image: null
+        name: medicine.name,
+        description: medicine.description,
+        diseaseId: medicine.diseaseId._id,
+        benefits: medicine.benefits.join(', '),
+        dosage: medicine.dosage,
+        sideEffects: medicine.sideEffects.join(', '),
+        purchaseLinks: medicine.purchaseLinks.join(', '),
+        readMoreLink: medicine.readMoreLink || '',
+        image: null
     });
     setIsAdding(false);
-  };
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,46 +81,46 @@ const ListedMedicines = () => {
     
     // Append all form data
     formDataToSend.append('name', formData.name);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('diseaseId', formData.diseaseId);
-    formDataToSend.append('benefits', formData.benefits);
-    formDataToSend.append('dosage', formData.dosage);
-    formDataToSend.append('sideEffects', formData.sideEffects);
-    formDataToSend.append('purchaseLinks', formData.purchaseLinks);
-  
-    // Only append image if it exists
-    if (formData.image) {
-      formDataToSend.append('image', formData.image);
+  formDataToSend.append('description', formData.description);
+  formDataToSend.append('diseaseId', formData.diseaseId);
+  formDataToSend.append('benefits', formData.benefits);
+  formDataToSend.append('dosage', formData.dosage);
+  formDataToSend.append('sideEffects', formData.sideEffects);
+  formDataToSend.append('purchaseLinks', formData.purchaseLinks);
+  formDataToSend.append('readMoreLink', formData.readMoreLink || '');
+
+  if (formData.image) {
+    formDataToSend.append('image', formData.image);
+  }
+
+  try {
+    if (isAdding) {
+      await axios.post('http://localhost:5000/api/medicines/add', formDataToSend);
+    } else {
+      await axios.put(`http://localhost:5000/api/medicines/${editingMedicine.name}`, formDataToSend);
     }
-  
-    try {
-      let response;
-      if (isAdding) {
-        response = await axios.post('http://localhost:5000/api/medicines/add', formDataToSend);
-      } else {
-        response = await axios.put(`http://localhost:5000/api/medicines/${editingMedicine.name}`, formDataToSend);
-      }
-      
-      // Reset form and states
-      setEditingMedicine(null);
-      setIsAdding(false);
-      setFormData({
-        name: '',
-        description: '',
-        diseaseId: '',
-        benefits: '',
-        dosage: '',
-        sideEffects: '',
-        purchaseLinks: '',
-        image: null
-      });
-  
-      // Fetch updated medicines
-      fetchMedicines();
-    } catch (error) {
-      setError(`Failed to ${isAdding ? 'add' : 'update'} medicine: ${error.response?.data?.error || error.message}`);
-    }
-  };
+    
+    // Reset form
+    setEditingMedicine(null);
+    setIsAdding(false);
+    setFormData({
+      name: '',
+      description: '',
+      diseaseId: '',
+      benefits: '',
+      dosage: '',
+      sideEffects: '',
+      purchaseLinks: '',
+      readMoreLink: '',
+      image: null
+    });
+    
+    // Refresh medicines list
+    fetchMedicines();
+  } catch (error) {
+    setError(`Failed to ${isAdding ? 'add' : 'update'} medicine: ${error.response?.data?.error || error.message}`);
+  }
+};
 
   const handleCancel = () => {
     setEditingMedicine(null);
@@ -228,6 +229,18 @@ const ListedMedicines = () => {
     }
   }}
 />
+
+<div className="reference-section">
+    <h4>Scientific Validation</h4>
+    <input
+      type="url"
+      value={formData.readMoreLink || ''}
+      onChange={(e) => setFormData({...formData, readMoreLink: e.target.value})}
+      placeholder="Add a reference link (e.g., research paper, journal article)"
+      className="reference-input"
+    />
+  </div>
+
             <div className="edit-actions">
               <button type="submit" className="save-btn">
                 {isAdding ? 'Add Medicine' : 'Save Changes'}

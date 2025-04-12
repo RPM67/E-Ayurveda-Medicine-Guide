@@ -23,6 +23,7 @@ const medicineSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    readMoreLink:String,
     listedBy: {
         type: String,
         required: true

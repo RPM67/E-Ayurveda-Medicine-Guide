@@ -64,8 +64,9 @@ exports.updateMedicineByName = async (req, res) => {
       benefits: req.body.benefits.split(',').map(b => b.trim()),
       dosage: req.body.dosage,
       sideEffects: req.body.sideEffects.split(',').map(s => s.trim()),
-      purchaseLinks: req.body.purchaseLinks.split(',').map(l => l.trim())
-    };
+      purchaseLinks: req.body.purchaseLinks.split(',').map(l => l.trim()),
+      readMoreLink: req.body.readMoreLink || ''
+  };
 
     // Handle image update
     if (req.file) {

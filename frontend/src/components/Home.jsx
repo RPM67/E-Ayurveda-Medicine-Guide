@@ -18,7 +18,8 @@ const Home = () => {
       const response = await axios.get('http://localhost:5000/api/diseases');
       const options = response.data.map(disease => ({
         value: disease._id,
-        label: disease.name
+        label: disease.name,
+        dietaryPlan: disease.dietaryPlan
       }));
       setDiseases(options);
     } catch (error) {
@@ -90,6 +91,29 @@ const Home = () => {
       {selectedDisease && (
         <div className="results-section">
           <h2>Recommended Medicines for {selectedDisease.label}</h2>
+
+          <div className="dietary-recommendations">
+      <h3>Dietary Guidelines</h3>
+      <div className="diet-cards">
+        <div className="diet-card recommended">
+          <h4>✅ Recommended Foods</h4>
+          <ul>
+            {diseases.find(d => d.value === selectedDisease.value)?.dietaryPlan?.recommended?.map((food, index) => (
+              <li key={index}>{food}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="diet-card avoid">
+          <h4>❌ Foods to Avoid</h4>
+          <ul>
+            {diseases.find(d => d.value === selectedDisease.value)?.dietaryPlan?.avoided?.map((food, index) => (
+              <li key={index}>{food}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
           <div className="medicines-grid">
             {medicines.length > 0 ? (
               medicines.map(medicine => (

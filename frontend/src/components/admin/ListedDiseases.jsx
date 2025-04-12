@@ -31,7 +31,11 @@ const ListedDiseases = () => {
     setFormData({
       name: disease.name,
       description: disease.description,
-      symptoms: disease.symptoms.join(', ')
+      symptoms: disease.symptoms.join(', '),
+      dietaryPlan: {
+        recommended: disease.dietaryPlan?.recommended?.join(', ') || '',
+        avoided: disease.dietaryPlan?.avoided?.join(', ') || ''
+      }
     });
     setIsAdding(false);
   };
@@ -94,80 +98,129 @@ const ListedDiseases = () => {
       {error && <div className="error-message">{error}</div>}
       
       {(isAdding || editingDisease) && (
-        <div className="edit-form">
-          <h3>{isAdding ? 'Add New Disease' : 'Edit Disease'}</h3>
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
-            placeholder="Disease Name"
-          />
-          <textarea
-            value={formData.description}
-            onChange={(e) => setFormData({...formData, description: e.target.value})}
-            placeholder="Description"
-          />
-          <input
-            type="text"
-            value={formData.symptoms}
-            onChange={(e) => setFormData({...formData, symptoms: e.target.value})}
-            placeholder="Symptoms (comma separated)"
-          />
-          <div className="edit-actions">
-            <button 
-              onClick={isAdding ? handleAdd : handleUpdate} 
-              className="save-btn"
-            >
-              {isAdding ? 'Add Disease' : 'Save Changes'}
-            </button>
-            <button onClick={handleCancel} className="cancel-btn">
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="edit-form">
+    <h3>{isAdding ? 'Add New Disease' : 'Edit Disease'}</h3>
+    <input
+      type="text"
+      value={formData.name}
+      onChange={(e) => setFormData({...formData, name: e.target.value})}
+      placeholder="Disease Name"
+    />
+    <textarea
+      value={formData.description}
+      onChange={(e) => setFormData({...formData, description: e.target.value})}
+      placeholder="Description"
+    />
+    <input
+      type="text"
+      value={formData.symptoms}
+      onChange={(e) => setFormData({...formData, symptoms: e.target.value})}
+      placeholder="Symptoms (comma separated)"
+    />
+    <div className="dietary-section">
+      <h4>Dietary Recommendations</h4>
+      <textarea
+        value={formData.dietaryPlan?.recommended || ''}
+        onChange={(e) => setFormData({
+          ...formData,
+          dietaryPlan: {
+            ...formData.dietaryPlan,
+            recommended: e.target.value
+          }
+        })}
+        placeholder="Recommended foods (comma separated)"
+      />
+      <textarea
+        value={formData.dietaryPlan?.avoided || ''}
+        onChange={(e) => setFormData({
+          ...formData,
+          dietaryPlan: {
+            ...formData.dietaryPlan,
+            avoided: e.target.value
+          }
+        })}
+        placeholder="Foods to avoid (comma separated)"
+      />
+    </div>
+    <div className="edit-actions">
+      <button 
+        onClick={isAdding ? handleAdd : handleUpdate} 
+        className="save-btn"
+      >
+        {isAdding ? 'Add Disease' : 'Save Changes'}
+      </button>
+      <button onClick={handleCancel} className="cancel-btn">
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
       
       <div className="diseases-grid">
-        {diseases.map(disease => (
-          <div key={disease._id} className="disease-card">
-            <h3>{disease.name}</h3>
-            <p className="description">
-              {disease.description.length > 40 
-                ? `${disease.description.substring(0, 100)}...` 
-                : disease.description}
-            </p>
-            
-            <div className="symptoms">
-              <strong>Symptoms:</strong>
-              <ul>
-                {disease.symptoms.slice(0, 3).map((symptom, index) => (
-                  <li key={index}>{symptom}</li>
-                ))}
-                {disease.symptoms.length > 3 && <li>...</li>}
-              </ul>
-            </div>
-
-            <div className="listed-by">
-              Added by: {disease.listedBy}
-            </div>
-
-            <div className="card-actions">
-              <button 
-                className="edit-btn"
-                onClick={() => handleEdit(disease)}
-              >
-                Edit
-              </button>
-              <button 
-                className="delete-btn"
-                onClick={() => handleDelete(disease.name)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+  {diseases.map(disease => (
+    <div key={disease._id} className="disease-card">
+      <h3>{disease.name}</h3>
+      <p className="description">
+        {disease.description.length > 100 
+          ? `${disease.description.substring(0, 100)}...` 
+          : disease.description}
+      </p>
+      
+      <div className="symptoms">
+        <strong>Symptoms:</strong>
+        <ul>
+          {disease.symptoms.slice(0, 3).map((symptom, index) => (
+            <li key={index}>{symptom}</li>
+          ))}
+          {disease.symptoms.length > 3 && <li>...</li>}
+        </ul>
       </div>
+
+      <div className="dietary-info">
+        <h4>Dietary Recommendations</h4>
+        <div className="diet-section">
+          <div className="recommended">
+            <h5>✅ Recommended:</h5>
+            <ul>
+              {disease.dietaryPlan?.recommended?.slice(0, 3).map((food, index) => (
+                <li key={index}>{food}</li>
+              ))}
+              {disease.dietaryPlan?.recommended?.length > 3 && <li>...</li>}
+            </ul>
+          </div>
+          <div className="avoided">
+            <h5>❌ Avoid:</h5>
+            <ul>
+              {disease.dietaryPlan?.avoided?.slice(0, 3).map((food, index) => (
+                <li key={index}>{food}</li>
+              ))}
+              {disease.dietaryPlan?.avoided?.length > 3 && <li>...</li>}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="listed-by">
+        Added by: {disease.listedBy}
+      </div>
+
+      <div className="card-actions">
+        <button 
+          className="edit-btn"
+          onClick={() => handleEdit(disease)}
+        >
+          Edit
+        </button>
+        <button 
+          className="delete-btn"
+          onClick={() => handleDelete(disease.name)}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
     </div>
   );
 };

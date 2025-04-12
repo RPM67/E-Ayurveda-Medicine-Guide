@@ -158,3 +158,78 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.dietary-recommendations {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0 40px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dietary-recommendations h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.diet-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.diet-card {
+  padding: 20px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.diet-card h4 {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diet-card.recommended {
+  border-left: 4px solid #2ecc71;
+}
+
+.diet-card.avoid {
+  border-left: 4px solid #e74c3c;
+}
+
+.diet-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.diet-card li {
+  padding: 8px 0;
+  color: #4a5568;
+  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diet-card li:last-child {
+  border-bottom: none;
+}
+
+.medicines-title {
+  color: #2c3e50;
+  text-align: center;
+  margin: 30px 0;
+  font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+  .diet-cards {
+    grid-template-columns: 1fr;
+  }
+}

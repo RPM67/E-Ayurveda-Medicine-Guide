@@ -190,3 +190,57 @@
 .add-btn:hover {
   background: #27ae60;
 }
+
+.dietary-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.dietary-section h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.dietary-section textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  min-height: 80px;
+}
+
+.dietary-info {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.diet-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.recommended h5, .avoided h5 {
+  margin-bottom: 8px;
+  font-size: 0.9em;
+}
+
+.recommended ul, .avoided ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.recommended ul li, .avoided ul li {
+  margin-bottom: 5px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.avoided h5 {
+  color: #e74c3c;
+}
+
+.recommended h5 {
+  color: #27ae60;
+}

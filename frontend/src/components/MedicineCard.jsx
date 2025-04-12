@@ -5,10 +5,6 @@ import './MedicineCard.css';
 const MedicineCard = ({ medicine }) => {
   const [showFeedback, setShowFeedback] = useState(false);
 
-  const handlePurchaseClick = (link) => {
-    window.open(link, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <div className="medicine-card">
       {medicine.image && (
@@ -40,20 +36,37 @@ const MedicineCard = ({ medicine }) => {
 
           <p><strong>Dosage:</strong> {medicine.dosage}</p>
 
-          {/* Simplified Purchase Section */}
+          {/* Purchase Links Section */}
           {medicine.purchaseLinks && medicine.purchaseLinks.length > 0 && (
             <div className="purchase-section">
-              <h3>Best Purchase Link:</h3>
-              <a
-                href={medicine.purchaseLinks[0]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="purchase-link"
-              >
-                {medicine.purchaseLinks[0]}
-              </a>
+              <h3>Purchase Links:</h3>
+              {medicine.purchaseLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="purchase-link"
+                >
+                  {link}
+                </a>
+              ))}
             </div>
           )}
+
+          {/* Scientific Validation Link */}
+          {medicine.readMoreLink && (
+    <div className="read-more-section">
+        <a 
+            href={medicine.readMoreLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="read-more-link"
+        >
+            📚 Read Scientific Research About {medicine.name}
+        </a>
+    </div>
+)}
         </div>
 
         <button
